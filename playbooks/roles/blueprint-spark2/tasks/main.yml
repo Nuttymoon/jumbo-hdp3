@@ -1,0 +1,18 @@
+--- 
+- name: set Spark2 blueprint path
+  set_fact:
+    blueprint_conf: "{{ role_path }}/templates/spark2-blueprint.j2"
+    
+- name: Build variables for template
+  set_fact:
+    SPARK2:
+      historyserver_FQDN: "{{ serv_comp_host['SPARK2']['SPARK2_JOBHISTORYSERVER'][0] }}.{{ domain }}"
+
+- name: Registering service Spark2
+  debug:
+    msg: "Added {{ blueprint_conf }}"
+  changed_when: true
+  notify: "add service to blueprint"
+
+- meta: flush_handlers
+

@@ -1,0 +1,55 @@
+{
+  "available_node_types": [],
+  "services": [
+    {
+      "name": "FREEIPA",
+      "components": [
+        {
+          "name": "IPA_SERVER",
+          "node_types": [
+            [
+              "ldap"
+            ]
+          ],
+          "ansible_groups": [
+            "ipaserver"
+          ],
+          "abbr": "IPA_S",
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        },
+        {
+          "name": "IPA_CLIENT",
+          "node_types": [
+            [
+              "!ldap"
+            ]
+          ],
+          "ansible_groups": [
+            "ipaclients"
+          ],
+          "abbr": "IPA_C",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        }
+      ],
+      "ansible_vars": {
+        "FREEIPA": {
+          "dm_password": "dm_p4ssw0rd",
+          "admin_password": "adm1n_p4ssw0rd"
+        }
+      },
+      "requirements": {
+        "services": {
+          "default": [],
+          "ha": []
+        }
+      },
+      "auto_install": []
+    }
+  ]
+}

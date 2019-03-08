@@ -1,0 +1,109 @@
+{
+  "available_node_types": [],
+  "services": [
+    {
+      "name": "HDFS",
+      "components": [
+        {
+          "name": "NAMENODE",
+          "node_types": [
+            [
+              "master"
+            ]
+          ],
+          "abbr": "NN",
+          "ram": 500,
+          "number": {
+            "default": 1,
+            "ha": 2
+          }
+        },
+        {
+          "name": "SECONDARY_NAMENODE",
+          "node_types": [
+            [
+              "sidemaster"
+            ]
+          ],
+          "abbr": "SNN",
+          "number": {
+            "default": 1,
+            "ha": 0
+          }
+        },
+        {
+          "name": "DATANODE",
+          "node_types": [
+            [
+              "worker"
+            ]
+          ],
+          "abbr": "DN",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        },
+        {
+          "name": "JOURNALNODE",
+          "node_types": [
+            [
+              "master"
+            ],
+            [
+              "sidemaster"
+            ]
+          ],
+          "abbr": "JN",
+          "number": {
+            "default": 0,
+            "ha": 3
+          }
+        },
+        {
+          "name": "HDFS_CLIENT",
+          "node_types": [
+            [
+              "!ldap"
+            ]
+          ],
+          "abbr": "HDFS_C",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        },
+        {
+          "name": "ZKFC",
+          "node_types": [
+            [
+              "master"
+            ]
+          ],
+          "abbr": "ZKFC",
+          "number": {
+            "default": 0,
+            "ha": 2
+          }
+        }
+      ],
+      "ansible_vars": {
+        "HDFS": {}
+      },
+      "requirements": {
+        "services": {
+          "default": [
+            "AMBARI"
+          ],
+          "ha": [
+            "AMBARI",
+            "ZOOKEEPER"
+          ]
+        }
+      },
+      "auto_install": [
+        "HDFS_CLIENT"
+      ]
+    }
+  ]
+}

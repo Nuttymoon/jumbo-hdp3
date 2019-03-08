@@ -1,0 +1,70 @@
+{
+  "available_node_types": [],
+  "services": [
+    {
+      "name": "AMBARI",
+      "components": [
+        {
+          "name": "AMBARI_SERVER",
+          "node_types": [
+            [
+              "sidemaster",
+              "!ldap"
+            ],
+            [
+              "master",
+              "!ldap"
+            ]
+          ],
+          "ansible_groups": [
+            "ambariserver"
+          ],
+          "abbr": "AMBARI_S",
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        },
+        {
+          "name": "AMBARI_AGENT",
+          "node_types": [
+            [
+              "!ldap"
+            ]
+          ],
+          "ansible_groups": [
+            "ambariclients"
+          ],
+          "abbr": "AMBARI_S",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        }
+      ],
+      "ansible_vars": {
+        "AMBARI": {
+          "user": "admin",
+          "pwd": "admin",
+          "ssl": {
+            "enabled": false,
+            "port": 8442
+          }
+        },
+        "ambari_url": "{{ \"https\" if AMBARI.ssl.enabled else \"http\" }}://{{ hostvars[groups[\"ambariserver\"][0]][\"ansible_all_ipv4_addresses\"][0] }}:{{ AMBARI.ssl.port if AMBARI.ssl.enabled else \"8080\" }}",
+        "blueprint_name": "{{ domain | regex_replace(\"\\.\", \"-\") }}-blueprint"
+      },
+      "requirements": {
+        "services": {
+          "default": [
+            "POSTGRESQL"
+          ],
+          "ha": [
+            "POSTGRESQL"
+          ]
+        }
+      },
+      "auto_install": []
+    }
+  ]
+}

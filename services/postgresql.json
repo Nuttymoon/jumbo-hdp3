@@ -1,0 +1,36 @@
+{
+  "available_node_types": [],
+  "services": [
+    {
+      "name": "POSTGRESQL",
+      "components": [
+        {
+          "name": "PSQL_SERVER",
+          "abbr": "PSQL_S",
+          "node_types": [
+            [
+              "sidemaster"
+            ]
+          ],
+          "ansible_groups": [
+            "pgsqlserver"
+          ],
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        }
+      ],
+      "ansible_vars": {
+        "POSTGRESQL": {}
+      },
+      "requirements": {
+        "services": {
+          "default": [],
+          "ha": []
+        }
+      },
+      "auto_install": []
+    }
+  ]
+}

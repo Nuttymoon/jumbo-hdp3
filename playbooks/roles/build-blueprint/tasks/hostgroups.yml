@@ -1,0 +1,75 @@
+---
+- name: Set HDP components list
+  set_fact:
+    HDP_components:
+      # HDFS
+      - NAMENODE
+      - SECONDARY_NAMENODE
+      - DATANODE
+      - JOURNALNODE
+      - HDFS_CLIENT
+      - ZKFC
+      # ZOOKEEPER
+      - ZOOKEEPER_SERVER
+      - ZOOKEEPER_CLIENT
+      # YARN
+      - RESOURCEMANAGER
+      - NODEMANAGER
+      - HISTORYSERVER
+      - APP_TIMELINE_SERVER
+      - TIMELINE_READER
+      - YARN_CLIENT
+      # HIVE
+      - HIVE_METASTORE
+      - HIVE_SERVER
+      - HIVE_CLIENT
+      # HBASE
+      - HBASE_CLIENT
+      - HBASE_MASTER
+      - HBASE_REGIONSERVER
+      # SPARK2
+      - SPARK2_CLIENT
+      - SPARK2_JOBHISTORYSERVER
+      # ZEPPELIN
+      - ZEPPELIN_MASTER
+      # KAFKA
+      - KAFKA_BROKER
+      # OOZIE
+      - OOZIE_SERVER
+      - OOZIE_CLIENT
+      # RANGER
+      - RANGER_ADMIN
+      - RANGER_USERSYNC
+      # CLIENTS
+      - MAPREDUCE2_CLIENT
+      - PIG
+      - TEZ_CLIENT
+
+- name: Template hostgroups
+  template:
+    src: hostgroups.j2
+    dest: /tmp/hostgroups.json
+
+- name: Load Blueprint file
+  slurp:
+    path: "/tmp/blueprint.json"
+  register: bp_var_file
+
+- name: Load hostgroups file
+  slurp:
+    path: "/tmp/hostgroups.json"
+  register: hg_var_file
+
+- name: Register as JSON variables
+  set_fact:
+    bp_var: "{{ bp_var_file.content|b64decode|from_json }}"
+    hg_var: "{{ hg_var_file.content|b64decode|from_json }}"
+
+- name: Add Blueprint hostgroups to Blueprint
+  set_fact:
+    bp_var: "{{ bp_var | combine(hg_var) }}"
+
+- name: Update blueprint
+  copy:
+    content: "{{ bp_var }}"
+    dest: /tmp/blueprint.json

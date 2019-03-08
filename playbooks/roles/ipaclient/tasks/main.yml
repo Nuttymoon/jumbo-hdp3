@@ -1,0 +1,29 @@
+---
+- name: Unlock resolv.conf
+  file:
+    path: /etc/resolv.conf
+    attributes: ""
+
+- name: Add IPA server as nameserver in resolf.conf (first line) and lock file (immutable attr)
+  lineinfile:
+    dest: /etc/resolv.conf
+    line: "nameserver {{ hostvars[item]['ansible_host'] }}"
+    insertbefore: BOF
+    attributes: "i"
+  with_inventory_hostnames:
+    - ipaserver
+
+- name: Download ipa-client
+  yum:
+    name: ipa-client
+    state: present
+
+- name: Install ipa-clients and join
+  command: ipa-client-install -U --mkhomedir -p admin -w {{ FREEIPA.admin_password }} --server {{ hostvars[groups['ipaserver'][0]]['inventory_hostname'] }}.{{ domain }} --domain {{ domain }} --realm {{ realm }} --force-join
+  register: ipa_client_install_reg
+  changed_when: '"Client configuration complete." in ipa_client_install_reg.stderr'
+  failed_when: '"PA client is already configured on this system." not in ipa_client_install_reg.stderr and "Client configuration complete." not in ipa_client_install_reg.stderr'
+
+- name: debug
+  debug:
+    msg: "{{ ipa_client_install_reg }}"

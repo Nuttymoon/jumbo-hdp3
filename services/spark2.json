@@ -1,0 +1,57 @@
+{
+  "available_node_types": [],
+  "services": [
+    {
+      "name": "SPARK2",
+      "components": [
+        {
+          "name": "SPARK2_JOBHISTORYSERVER",
+          "node_types": [
+            [
+              "edge"
+            ]
+          ],
+          "abbr": "SPARK_HS",
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        },
+        {
+          "name": "SPARK2_CLIENT",
+          "node_types": [
+            [
+              "!ldap"
+            ]
+          ],
+          "abbr": "SPARK_C",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        }
+      ],
+      "ansible_vars": {
+        "SPARK2": {}
+      },
+      "requirements": {
+        "services": {
+          "default": [
+            "AMBARI",
+            "HDFS",
+            "YARN"
+          ],
+          "ha": [
+            "AMBARI",
+            "HDFS",
+            "YARN",
+            "ZOOKEEPER"
+          ]
+        }
+      },
+      "auto_install": [
+        "SPARK2_CLIENT"
+      ]
+    }
+  ]
+}

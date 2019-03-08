@@ -1,0 +1,7 @@
+---
+- name: Copy clean blueprint
+  template:
+    src: blueprint.j2
+    dest: /tmp/blueprint.json
+
+- import_tasks: hostgroups.yml

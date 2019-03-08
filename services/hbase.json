@@ -1,0 +1,71 @@
+{
+  "available_node_types": [],
+  "services": [
+    {
+      "name": "HBASE",
+      "components": [
+        {
+          "name": "HBASE_MASTER",
+          "node_types": [
+            [
+              "master"
+            ]
+          ],
+          "abbr": "HMASTER",
+          "number": {
+            "default": 1,
+            "ha": 2
+          }
+        },
+        {
+          "name": "HBASE_REGIONSERVER",
+          "node_types": [
+            [
+              "worker"
+            ]
+          ],
+          "abbr": "REGIONS",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        },
+        {
+          "name": "HBASE_CLIENT",
+          "node_types": [
+            [
+              "!ldap"
+            ]
+          ],
+          "abbr": "HBASE_C",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        }
+      ],
+      "ansible_vars": {
+        "HBASE": {}
+      },
+      "requirements": {
+        "services": {
+          "default": [
+            "AMBARI",
+            "HDFS",
+            "YARN",
+            "ZOOKEEPER"
+          ],
+          "ha": [
+            "AMBARI",
+            "HDFS",
+            "YARN",
+            "ZOOKEEPER"
+          ]
+        }
+      },
+      "auto_install": [
+        "HBASE_CLIENT"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "available_node_types": [],
+  "services": [
+    {
+      "name": "RANGER",
+      "components": [
+        {
+          "name": "RANGER_ADMIN",
+          "node_types": [
+            [
+              "sidemaster"
+            ],
+            [
+              "master"
+            ]
+          ],
+          "abbr": "RANGERADM",
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        },
+        {
+          "name": "RANGER_USERSYNC",
+          "node_types": [
+            [
+              "sidemaster"
+            ],
+            [
+              "master"
+            ]
+          ],
+          "abbr": "RANGER_USYNC",
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        }
+      ],
+      "ansible_vars": {
+        "RANGER": {
+          "ranger_admin_password": "rangerpassword123",
+          "ranger_usersync_password": "rangerpassword123",
+          "admin_password": "rangerpassword123",
+          "ranger_tagsync_password": "rangerpassword123",
+          "ranger_keyadmin_password": "rangerpassword123"
+        }
+      },
+      "requirements": {
+        "services": {
+          "default": [
+            "AMBARI"
+          ],
+          "ha": [
+            "AMBARI"
+          ]
+        }
+      },
+      "auto_install": []
+    }
+  ]
+}

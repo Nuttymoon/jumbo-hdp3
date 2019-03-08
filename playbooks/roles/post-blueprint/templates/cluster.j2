@@ -1,0 +1,58 @@
+{
+  "blueprint": "{{ domain|replace('.', '-') }}-blueprint",
+  "repository_version_id": 1,
+  "host_groups": [
+    {% set comma_hostgroup = joiner(',') %}
+    {% for host in groups['all'] %}
+      {% if hostvars[host]['components'] is defined %}
+        {# Check if host has HDP components #}
+        {% set ns = namespace(bp=false) %}
+        {% for comp in hostvars[host]['components'] %}
+          {% if comp in HDP_components %}
+            {% set ns.bp = true %}
+          {% endif %}
+        {% endfor %}
+        {# Add host if it has some HDP components #}
+        {%if ns.bp == true %}
+      {{ comma_hostgroup() }}{
+        "name": "{{ host }}_group",
+        "hosts": [
+          {
+            "fqdn": "{{ host }}.{{ domain }}"
+          }
+        ]
+      }
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  ],
+  "config_recommendation_strategy": "ALWAYS_APPLY_DONT_OVERRIDE_CUSTOM_VALUES",
+  "default_password" : "adm1n_p4ssw0rd",
+  "configurations": [
+    {
+      "hive-site": {
+        "properties": {
+          "javax.jdo.option.ConnectionPassword": "hive"
+        }
+      }
+    },
+    {
+      "oozie-site": {
+        "properties": {
+          "oozie.service.JPAService.jdbc.password": "oozie"
+        }
+      }
+    },
+    {
+      "ranger-env": {
+        "properties": {
+          "ranger_admin_password": "{{ RANGER.ranger_admin_password }}",
+          "rangerusersync_user_password": "{{ RANGER.ranger_usersync_password }}",
+          "admin_password": "{{ RANGER.admin_password }}",
+          "rangertagsync_user_password" : "{{ RANGER.ranger_tagsync_password }}",
+          "keyadmin_user_password": "{{ RANGER.ranger_keyadmin_password }}"
+        }
+      }
+    }
+  ]
+}

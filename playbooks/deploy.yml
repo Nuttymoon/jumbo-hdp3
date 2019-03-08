@@ -1,0 +1,9 @@
+---
+- import_playbook: init-conf.yml
+- import_playbook: postgresql.yml
+- import_playbook: ipa.yml
+  when: serv_comp_host.FREEIPA is defined
+- import_playbook: ambari.yml
+- import_playbook: blueprint.yml
+#- import_playbook: kerberos.yml
+#  when: serv_comp_host.KERBEROS is defined

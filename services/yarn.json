@@ -1,0 +1,150 @@
+{
+  "available_node_types": [],
+  "services": [
+    {
+      "name": "YARN",
+      "components": [
+        {
+          "name": "RESOURCEMANAGER",
+          "node_types": [
+            [
+              "master"
+            ]
+          ],
+          "abbr": "RM",
+          "number": {
+            "default": 1,
+            "ha": 2
+          }
+        },
+        {
+          "name": "NODEMANAGER",
+          "node_types": [
+            [
+              "worker"
+            ]
+          ],
+          "abbr": "NM",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        },
+        {
+          "name": "HISTORYSERVER",
+          "node_types": [
+            [
+              "edge"
+            ]
+          ],
+          "abbr": "MAPR_HS",
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        },
+        {
+          "name": "APP_TIMELINE_SERVER",
+          "node_types": [
+            [
+              "edge"
+            ]
+          ],
+          "abbr": "TLS",
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        },
+        {
+          "name": "TIMELINE_READER",
+          "node_types": [
+            [
+              "edge"
+            ]
+          ],
+          "abbr": "TLR",
+          "number": {
+            "default": 1,
+            "ha": 1
+          }
+        },
+        {
+          "name": "YARN_CLIENT",
+          "node_types": [
+            [
+              "!ldap"
+            ]
+          ],
+          "abbr": "YARN_C",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        },
+        {
+          "name": "MAPREDUCE2_CLIENT",
+          "node_types": [
+            [
+              "!ldap "
+            ]
+          ],
+          "abbr": "MAPR_C",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        },
+        {
+          "name": "PIG",
+          "node_types": [
+            [
+              "!ldap "
+            ]
+          ],
+          "abbr": "PIG",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        },
+        {
+          "name": "TEZ_CLIENT",
+          "node_types": [
+            [
+              "!ldap "
+            ]
+          ],
+          "abbr": "TEZ_C",
+          "number": {
+            "default": -1,
+            "ha": -1
+          }
+        }
+      ],
+      "ansible_vars": {
+        "YARN": {}
+      },
+      "requirements": {
+        "services": {
+          "default": [
+            "AMBARI",
+            "HDFS",
+            "ZOOKEEPER"
+          ],
+          "ha": [
+            "AMBARI",
+            "HDFS",
+            "ZOOKEEPER"
+          ]
+        }
+      },
+      "auto_install": [
+        "YARN_CLIENT",
+        "MAPREDUCE2_CLIENT",
+        "TEZ_CLIENT",
+        "PIG"
+      ]
+    }
+  ]
+}

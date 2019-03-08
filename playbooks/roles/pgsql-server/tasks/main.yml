@@ -1,0 +1,10 @@
+---
+- name: Install and init PostgreSQL
+  include_tasks: "postgres-{{ services.POSTGRESQL.version }}.yml"
+
+- name: Configure PostgreSQL
+  include_tasks: common.yml
+
+- name: Register host as postgreSQL server
+  set_fact:
+    pgsqlserver: "{{ inventory_hostname }}.{{ domain }}"
