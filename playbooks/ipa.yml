@@ -2,9 +2,9 @@
 - hosts: ipaserver
   become: true
   roles:
-    - ipaserver
+    - ipa-server
 
 - hosts: ipaclients
   become: true
   roles:
-    - ipaclient
+    - ipa-client
