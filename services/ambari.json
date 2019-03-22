@@ -64,7 +64,16 @@
           ]
         }
       },
-      "auto_install": []
+      "auto_install": [],
+      "versions": [
+        {
+          "version": "2.7.1",
+          "resources": {
+            "AMBARI": "https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-centos10-10-2.noarch.rpm",
+            "POSTGRESQL_JDBC_DRIVER": "https://jdbc.postgresql.org/download/postgresql-42.2.1.jar"
+          }
+        }
+      ]
     }
   ]
 }

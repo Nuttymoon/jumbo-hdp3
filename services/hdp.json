@@ -2,38 +2,25 @@
   "available_node_types": [],
   "services": [
     {
-      "name": "POSTGRESQL",
-      "components": [
-        {
-          "name": "PSQL_SERVER",
-          "abbr": "PSQL_S",
-          "node_types": [
-            [
-              "sidemaster"
-            ]
-          ],
-          "ansible_groups": [
-            "pgsqlserver"
-          ],
-          "number": {
-            "default": 1,
-            "ha": 1
-          }
-        }
-      ],
+      "name": "HDP",
+      "components": [],
       "ansible_vars": {
-        "POSTGRESQL": {}
+        "HDP": {}
       },
       "requirements": {
         "services": {
-          "default": [],
-          "ha": []
+          "default": [
+            "AMBARI"
+          ],
+          "ha": [
+            "AMBARI"
+          ]
         }
       },
       "auto_install": [],
       "versions": [
         {
-          "version": "9.6",
+          "version": "3.0.1",
           "url": "https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm"
         },
         {
